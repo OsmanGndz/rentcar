@@ -1,8 +1,7 @@
-import { url } from "inspector";
+"use client"
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { CiLogin } from "react-icons/ci";
 import CustomButton from "./common/button";
 
 const menus = [
@@ -47,7 +46,6 @@ const Navbar = () => {
         <div className="font-medium text-[18px]">
           <CustomButton url="/login" className="flex flex-row items-center space-x-2 cursor-pointer">
             <p>Login</p>
-            <CiLogin className="text-[24px]" />
           </CustomButton>
         </div>
       </nav>

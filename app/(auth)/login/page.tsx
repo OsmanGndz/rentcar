@@ -1,6 +1,6 @@
 "use client";
 
-import GoogleLoginButton from "@/components/googleLoginButton";
+import GoogleLoginButton from "../../../components/googleLoginButton";
 import React, { useState } from "react";
 
 const Login = () => {
