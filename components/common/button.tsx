@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React from "react";
 import Link from "next/link";
 
@@ -13,15 +13,14 @@ const CustomButton: React.FC<CustomButtonProps> = ({
   color = "bg-violet-800",
   url,
   className = "",
-  children
+  children,
 }) => {
   return (
-    <Link href={url}>
-      <button
-        className={`${color} text-white px-4 py-2 rounded-2xl hover:scale-104 transition duration-500 ${className} cursor-pointer`}
-      >
-        {children}
-      </button>
+    <Link
+      href={url}
+      className={`${color} text-white px-4 py-2 rounded-2xl hover:scale-104 transition duration-500 ${className} cursor-pointer inline-block`}
+    >
+      {children}
     </Link>
   );
 };

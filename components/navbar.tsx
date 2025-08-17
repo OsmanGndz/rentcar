@@ -8,6 +8,7 @@ import { TiThMenu } from "react-icons/ti";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../redux/store";
 import { toggleSidebar } from "../redux/features/sidebarSlice";
+import { usePathname } from "next/navigation";
 
 const menus = [
   {
@@ -33,6 +34,8 @@ const menus = [
 ];
 const Navbar = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const path = usePathname();
+  console.log(path)
   return (
     <div className="px-2 lg:px-18 py-7 w-full">
       <nav className="flex flex-row w-full items-center justify-between">
@@ -44,7 +47,7 @@ const Navbar = () => {
         </div>
         <div className="hidden lg:flex flex-row text-[18px] font-medium space-x-10">
           {menus.map((item, idx) => (
-            <Link key={`${idx}-${item.name}`} href={item.url}>
+            <Link key={`${idx}-${item.name}`} href={item.url} className={`${path === item.url ? "text-amber-500 underline": ""}`}>
               {item.name}
             </Link>
           ))}

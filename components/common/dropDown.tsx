@@ -43,7 +43,7 @@ const DropDown: React.FC<DropDownProps> = ({
     <div className="w-full relative" ref={dropdownRef}>
       <button
         type="button"
-        className="bg-gray-100 w-full py-2 px-4 rounded-lg flex flex-row items-center justify-between cursor-pointer"
+        className="bg-gray-100 w-full py-2 px-4 rounded-lg flex flex-row items-center justify-between cursor-pointer hover:bg-gray-200"
         onClick={() => setToggleDropDown(!toggleDropDown)}
       >
         <p >
