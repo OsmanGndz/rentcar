@@ -90,21 +90,21 @@ const cars = [
 const CarShowCase = () => {
   return (
     <div className="mt-15 w-full flex flex-col gap-10">
-      <div className="flex flex-row w-full">
-        <h1 className="w-[40%] text-[50px] font-bold">
+      <div className="flex flex-col md:flex-row w-full gap-4 sm:gap-0">
+        <h1 className="w-full text-center md:text-start md:w-[65%] 2xl:w-[40%] text-[30px] sm:text-[40px] md:text-[50px] font-bold">
           Choose the car that suits you
         </h1>
-        <div className="w-[60%] flex items-end justify-end">
+        <div className="w-full flex items-end justify-end">
           <Link
             href="/vehicles"
-            className="flex flex-row gap-1 items-center text-[20px] font-bold"
+            className="flex flex-row gap-1 items-center text-[16px] sm:text-[20px] font-bold"
           >
             <p>View All</p>
             <FaArrowRightLong />
           </Link>
         </div>
       </div>
-      <div className="w-full grid grid-cols-3 gap-6">
+      <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {cars.map((item) => {
           const { id, image, brand, type, price, freq, features } = item;
           return (

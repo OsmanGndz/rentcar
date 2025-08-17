@@ -30,7 +30,7 @@ const Card: React.FC<cardProps> = ({
 }) => {
   return (
     <div className="w-full flex flex-col bg-gray-100 p-6 rounded-lg gap-5">
-      <div className="w-full h-[368px] relative rounded-lg">
+      <div className="w-full h-[288px] sm:h-[198px] xl:h-[288px] 2xl:h-[368px] relative rounded-lg">
         <Image
           src={image}
           alt="home image"

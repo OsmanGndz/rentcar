@@ -35,7 +35,7 @@ const menus = [
 const Navbar = () => {
   const dispatch = useDispatch<AppDispatch>();
   const path = usePathname();
-  console.log(path)
+  console.log(path);
   return (
     <div className="px-2 lg:px-18 py-7 w-full">
       <nav className="flex flex-row w-full items-center justify-between">
@@ -47,19 +47,27 @@ const Navbar = () => {
         </div>
         <div className="hidden lg:flex flex-row text-[18px] font-medium space-x-10">
           {menus.map((item, idx) => (
-            <Link key={`${idx}-${item.name}`} href={item.url} className={`${path === item.url ? "text-amber-500 underline": ""}`}>
+            <Link
+              key={`${idx}-${item.name}`}
+              href={item.url}
+              className={`${
+                path === item.url ? "text-amber-500 underline" : ""
+              }`}
+            >
               {item.name}
             </Link>
           ))}
         </div>
         <div className="font-medium text-base md:text-[18px] flex flex-row items-center gap-4">
-          <CustomButton
-            url="/login"
-            className="hidden md:flex flex-row items-center space-x-2 cursor-pointer"
-          >
-            <p>Login</p>
-            <CiLogin className="text-lg md:text-xl" />
-          </CustomButton>
+          <div className="hidden md:flex">
+            <CustomButton
+              url="/login"
+              className="flex flex-row items-center space-x-2 cursor-pointer"
+            >
+              <p>Login</p>
+              <CiLogin className="text-lg md:text-xl" />
+            </CustomButton>
+          </div>
           <button
             className="cursor-pointer flex lg:hidden"
             onClick={() => dispatch(toggleSidebar())}

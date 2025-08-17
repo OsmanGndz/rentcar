@@ -18,7 +18,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
   return (
     <Link
       href={url}
-      className={`${color} text-white px-4 py-2 rounded-2xl hover:scale-104 transition duration-500 ${className} cursor-pointer inline-block`}
+      className={`${color} text-white px-4 py-2 rounded-2xl hover:scale-104 transition duration-500 ${className} cursor-pointer`}
     >
       {children}
     </Link>
