@@ -1,8 +1,8 @@
 import Image from "next/image";
-import Hero from "../components/home/hero";
-import Advantage from "../components/home/advantage";
-import CarShowCase from "../components/home/carShowCase";
-import Numbers from "../components/home/numbers";
+import Hero from "../../components/home/hero";
+import Advantage from "../../components/home/advantage";
+import CarShowCase from "../../components/home/carShowCase";
+import Numbers from "../../components/home/numbers";
 
 export default function Home() {
   return (

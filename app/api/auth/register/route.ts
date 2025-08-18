@@ -1,20 +1,34 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../../../services/firebase";
+import { auth, db } from "../../../../services/firebase";
+import { error } from "console";
+import { doc, setDoc } from "firebase/firestore";
 
 export async function POST(req: NextRequest) {
-  const { email, password } = await req.json();
+  const {name, email, password } = await req.json();
 
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    if(!userCredential){
+      return NextResponse.json({
+        error: "While registering, error happened."
+      }, {status:500})
+    }
 
-    // Gerekirse Firestore'da kullanıcı kaydı oluşturabilirsin
-    // await setDoc(doc(db, "users", userCredential.user.uid), { email });
+    const user = userCredential.user
+
+    await setDoc(doc(db,"users", user.uid),{
+      uid: user.uid,
+      name,
+      email,
+      createdAt: new Date(),
+    })
 
     return NextResponse.json({
-      uid: userCredential.user.uid,
-      email: userCredential.user.email,
-    });
+      uid: user.uid,
+      email: user.email,
+      name,
+    }, {status:201})
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 400 });
   }
