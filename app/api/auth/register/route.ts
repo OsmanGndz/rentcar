@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../../../../services/firebase";
-import { error } from "console";
 import { doc, setDoc } from "firebase/firestore";
 
 export async function POST(req: NextRequest) {
@@ -21,6 +20,7 @@ export async function POST(req: NextRequest) {
       uid: user.uid,
       name,
       email,
+      role: "user",
       createdAt: new Date(),
     })
 

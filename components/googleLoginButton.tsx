@@ -4,17 +4,25 @@ import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "../services/firebase";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { CreateUser } from "../services/authService";
 
 const GoogleLoginButton = ({ value }: { value: string }) => {
   const router = useRouter();
   const handleGoogleLogin = async () => {
     const provider = new GoogleAuthProvider();
     try {
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
+      const res = await signInWithPopup(auth, provider);
+      console.log(res);
+      await CreateUser({
+        name: res.user.displayName || "No Name",
+        email: res.user.email || "No Email",
+        uid: res.user.uid,
+      });
+
       router.push("/");
     } catch (err: any) {
       alert("Hata: " + err.message);
+      console.log(err);
     }
   };
 

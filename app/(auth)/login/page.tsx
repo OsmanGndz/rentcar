@@ -10,6 +10,9 @@ import Link from "next/link";
 import { useMutation } from "@tanstack/react-query";
 import { LoginUser } from "../../../services/authService";
 import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../../redux/store";
+import { login } from "../../../redux/features/authSlice";
 
 const slides: SliderItem[] = [
   {
@@ -32,6 +35,8 @@ const Login = () => {
     password: "",
   });
 
+  const dispatch = useDispatch<AppDispatch>();
+
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
@@ -43,6 +48,12 @@ const Login = () => {
       console.log("Login succesfull");
       router.push("/");
       setLoading(false);
+      dispatch(
+        login({
+          isAdmin: data.isAdmin,
+          token: data.token,
+        })
+      );
     },
     onError: (error: any) => {
       alert(error);
