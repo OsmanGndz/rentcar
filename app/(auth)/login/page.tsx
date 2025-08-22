@@ -4,15 +4,11 @@ import Image from "next/image";
 import React, { useState } from "react";
 import Slider, { SliderItem } from "../../../components/common/slider";
 import CustomInput from "../../../components/common/input";
-import CustomButton from "../../../components/common/button";
 import GoogleLoginButton from "../../../components/googleLoginButton";
 import Link from "next/link";
 import { useMutation } from "@tanstack/react-query";
 import { LoginUser } from "../../../services/authService";
 import { useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../../redux/store";
-import { login } from "../../../redux/features/authSlice";
 
 const slides: SliderItem[] = [
   {
@@ -35,8 +31,6 @@ const Login = () => {
     password: "",
   });
 
-  const dispatch = useDispatch<AppDispatch>();
-
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
@@ -48,12 +42,6 @@ const Login = () => {
       console.log("Login succesfull");
       router.push("/");
       setLoading(false);
-      dispatch(
-        login({
-          isAdmin: data.isAdmin,
-          token: data.token,
-        })
-      );
     },
     onError: (error: any) => {
       alert(error);
