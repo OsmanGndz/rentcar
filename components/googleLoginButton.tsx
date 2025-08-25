@@ -1,23 +1,30 @@
 "use client";
 import React from "react";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { getIdToken, getIdTokenResult, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "../services/firebase";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { CreateUser } from "../services/authService";
+import api from "../lib/axios";
+import { useDispatch } from "react-redux";
+import { setRole } from "../redux/features/authSlice";
 
 const GoogleLoginButton = ({ value }: { value: string }) => {
   const router = useRouter();
+  const dispatch = useDispatch();
+
   const handleGoogleLogin = async () => {
     const provider = new GoogleAuthProvider();
+
     try {
       const res = await signInWithPopup(auth, provider);
-      console.log(res);
-      await CreateUser({
+
+      const user = {
         name: res.user.displayName || "No Name",
         email: res.user.email || "No Email",
         uid: res.user.uid,
-      });
+      };
+
+      await api.post("/auth/user", user);
 
       router.push("/");
     } catch (err: any) {

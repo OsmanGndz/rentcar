@@ -9,6 +9,7 @@ import Link from "next/link";
 import { RegisterUser } from "../../../services/authService";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
+import { setRole } from "../../../redux/features/authSlice";
 
 const slides: SliderItem[] = [
   {

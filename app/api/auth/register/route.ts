@@ -1,34 +1,32 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth, db } from "../../../../services/firebase";
-import { doc, setDoc } from "firebase/firestore";
+import { adminAuth, adminDb } from "../../../../lib/firebaseAdmin";
 
 export async function POST(req: NextRequest) {
-  const {name, email, password } = await req.json();
+  const { name, email, password } = await req.json();
 
   try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    if(!userCredential){
-      return NextResponse.json({
-        error: "While registering, error happened."
-      }, {status:500})
-    }
+    const userRecord = await adminAuth.createUser({
+      email,
+      password,
+      displayName: name,
+    });
 
-    const user = userCredential.user
+    // Varsayılan rol ata
+    await adminAuth.setCustomUserClaims(userRecord.uid, { role: "user" });
 
-    await setDoc(doc(db,"users", user.uid),{
-      uid: user.uid,
+    // Admin SDK ile Firestore’a yaz
+    await adminDb.collection("users").doc(userRecord.uid).set({
+      uid: userRecord.uid,
       name,
       email,
       role: "user",
       createdAt: new Date(),
-    })
+    });
 
-    return NextResponse.json({
-      uid: user.uid,
-      email: user.email,
-      name,
-    }, {status:201})
+    return NextResponse.json(
+      { message: "Registration is successful" },
+      { status: 201 }
+    );
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 400 });
   }

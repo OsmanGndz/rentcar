@@ -6,6 +6,7 @@ import Footer from "../../components/footer";
 import { Provider } from "react-redux";
 import { store } from "../../redux/store";
 import Sidebar from "../../components/sidebar";
+import { useAuthListener } from "../../hooks/useAuthListener";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -17,6 +18,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  useAuthListener();
   return (
     <html lang="en">
       <body

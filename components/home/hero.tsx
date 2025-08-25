@@ -43,7 +43,7 @@ const Hero = () => {
     <div className="w-full h-full relative rounded-3xl">
       <div className="absolute inset-0 bg-violet-800/70 z-10 rounded-3xl" />
       <Image
-        src="/assets/HeroCarPhoto.jpg"
+        src="/assets/homePage/HeroCarPhoto.jpg"
         alt="hero part car image"
         fill
         className="object-cover rounded-3xl"

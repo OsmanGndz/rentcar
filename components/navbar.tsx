@@ -5,10 +5,11 @@ import React from "react";
 import CustomButton from "./common/button";
 import { CiLogin } from "react-icons/ci";
 import { TiThMenu } from "react-icons/ti";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../redux/store";
 import { toggleSidebar } from "../redux/features/sidebarSlice";
 import { usePathname } from "next/navigation";
+import { auth } from "../services/firebase";
 
 const menus = [
   {
@@ -36,6 +37,12 @@ const Navbar = () => {
   const dispatch = useDispatch<AppDispatch>();
   const path = usePathname();
   console.log(path);
+
+  const handleLogout = async () => {
+    await auth.signOut();
+  };
+
+  const { user, loading, role } = useSelector((state: RootState) => state.auth);
   return (
     <div className="px-2 lg:px-18 py-7 w-full">
       <nav className="flex flex-row w-full items-center justify-between">
@@ -59,14 +66,27 @@ const Navbar = () => {
           ))}
         </div>
         <div className="font-medium text-base md:text-[18px] flex flex-row items-center gap-4">
+          <h1>role: {role}</h1>
           <div className="hidden md:flex">
-            <CustomButton
-              url="/login"
-              className="flex flex-row items-center space-x-2 cursor-pointer"
-            >
-              <p>Login</p>
-              <CiLogin className="text-lg md:text-xl" />
-            </CustomButton>
+            {user && user ? (
+              <button
+                onClick={() => {
+                  handleLogout();
+                }}
+                className="flex flex-row items-center space-x-2 cursor-pointer bg-red-500"
+              >
+                <p>Log Out</p>
+                <CiLogin className="text-lg md:text-xl" />
+              </button>
+            ) : (
+              <CustomButton
+                url="/login"
+                className="flex flex-row items-center space-x-2 cursor-pointer"
+              >
+                <p>Log In</p>
+                <CiLogin className="text-lg md:text-xl" />
+              </CustomButton>
+            )}
           </div>
           <button
             className="cursor-pointer flex lg:hidden"

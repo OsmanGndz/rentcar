@@ -1,33 +1,40 @@
-import { doc, getDoc, setDoc } from "firebase/firestore";
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "../../../../services/firebase";
+import { adminAuth, adminDb } from "../../../../lib/firebaseAdmin";
 
-export async function checkUserExist(uid:string) {
-    try {
-        const userRef = await doc(db, "users", uid)
-        const userSnap = await getDoc(userRef)
-
-        if(userSnap.exists()) return true;
-        else return false;
-    } catch (error) {
-        NextResponse.json({error:"While checking user exist error happened"}, {status: 500} )
-    }
+async function checkUserExist(uid: string) {
+  try {
+    const userSnap = await adminDb.collection("users").doc(uid).get();
+    return userSnap.exists;
+  } catch (error) {
+    console.error("Error checking user existence:", error);
+    return false;
+  }
 }
 
 export async function POST(req: NextRequest) {
-    try {
-        const {name, email, uid} = await req.json();
-        const user = {
-            uid,
-            name,
-            email,
-            role: "user",
-            createdAt: new Date(),
-        };
-        await setDoc(doc(db, "users", uid), user)
-        return NextResponse.json({status:200})      
-   
-    } catch (error) {
-        return NextResponse.json({error: "While registering, error happened."}, {status: 500})
+  try {
+    const { uid, name, email } = await req.json();
+
+    const exists = await checkUserExist(uid);
+    if (!exists) {
+      await adminAuth.setCustomUserClaims(uid, { role: "user" });
+
+      const user = {
+        uid,
+        name,
+        email,
+        role: "user",
+        createdAt: new Date(),
+      };
+  
+      await adminDb.collection("users").doc(uid).set(user);
+      return NextResponse.json({ message: "User created successfully", user }, { status: 201 });
     }
+    
+    return NextResponse.json({ message: "User already exists" }, { status: 200 });
+    
+  } catch (error: any) {
+    console.error(error);
+    return NextResponse.json({ error: "Error creating user" }, { status: 500 });
+  }
 }

@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import { store } from "../redux/store";
 import "./globals.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useAuthListener } from "../hooks/useAuthListener";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -17,6 +18,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const queryClient = new QueryClient();
+  
   return (
     <html lang="en">
       <body
