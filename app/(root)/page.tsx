@@ -1,3 +1,5 @@
+"use client"
+
 import Image from "next/image";
 import Hero from "../../components/home/hero";
 import Advantage from "../../components/home/advantage";
