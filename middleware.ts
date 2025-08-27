@@ -13,5 +13,5 @@ export async function  middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/about", "/dashboard/:path*"], // korumalı sayfalar
+  matcher: ["/dashboard/:path*"], // korumalı sayfalar
 };
