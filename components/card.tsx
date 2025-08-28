@@ -1,8 +1,6 @@
+"use client"
 import Image from "next/image";
 import React, { ReactNode } from "react";
-import { BsFillFuelPumpFill } from "react-icons/bs";
-import { FaSnowflake } from "react-icons/fa";
-import { GiGearStickPattern } from "react-icons/gi";
 import CustomButton from "./common/button";
 
 interface featureProps {
