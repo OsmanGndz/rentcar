@@ -1,17 +1,18 @@
+"use client"
 import React from "react";
 
 const Advantage = () => {
   return (
-    <div className="w-full flex flex-row py-20 gap-20">
+    <div className="w-full flex flex-col lg:flex-row py-20 gap-20">
       {/* Sol taraf - büyük başlık */}
-      <div className="w-1/3">
-        <h1 className="font-bold text-[50px] leading-tight">
+      <div className="w-full lg:w-1/3">
+        <h1 className="font-bold text-[50px] text-center lg:text-start leading-tight">
           Where every drive feels extraordinary
         </h1>
       </div>
 
       {/* Sağ taraf - avantajlar */}
-      <div className="w-2/3 grid grid-cols-2 gap-12">
+      <div className="w-full lg:w-2/3 grid grid-cols-2 gap-12 justify-center">
         {/* 1 */}
         <div className="flex flex-col gap-4">
           <h2 className="font-semibold text-[28px]">Variety Brands</h2>

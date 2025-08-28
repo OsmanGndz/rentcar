@@ -40,7 +40,7 @@ const FAQ = () => {
               onClick={() => toggleFAQ(idx)}
               className='w-full flex flex-row items-center justify-between cursor-pointer'
             >
-              <h1 className='font-semibold text-[24px]'>{faq.question}</h1>
+              <h1 className='font-semibold text-[24px] text-start'>{faq.question}</h1>
               <IoIosArrowDown
                 className={`transition-transform duration-500 ${
                   openIndex === idx ? "rotate-180" : ""

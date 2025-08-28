@@ -1,3 +1,4 @@
+"use client"
 import React from "react";
 import { FaQuoteLeft, FaUserCircle } from "react-icons/fa";
 
@@ -31,7 +32,7 @@ const CustomerReviews = () => {
       <h1 className="font-bold text-[50px] w-full text-center">
         Reviews from our customers
       </h1>
-      <div className="w-full grid grid-cols-3 gap-6">
+      <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-6">
         {customerReviews.map((review, idx) => (
           <div
             key={`${review.name} - ${idx}`}

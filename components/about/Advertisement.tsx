@@ -5,9 +5,9 @@ import { FaCheckCircle } from "react-icons/fa";
 
 const Advertisement = () => {
   return (
-    <div className="w-full py-15 flex flex-row gap-[86px]">
-      <div className="flex flex-col gap-10 w-1/2">
-        <h1 className="text-[50px] font-bold">
+    <div className="w-full py-15 flex flex-col xl:flex-row gap-[40px] 2xl:gap-[86px]">
+      <div className="flex flex-col gap-10 w-full xl:w-1/2">
+        <h1 className="text-[50px] font-bold text-center lg:text-start">
           Unlock unforgettable memories on the road
         </h1>
         <p className="text-[16px] text-gray-700">
@@ -32,7 +32,7 @@ const Advertisement = () => {
           </div>
         </div>
       </div>
-      <div className="w-1/2 relative">
+      <div className="w-full h-[300px] md:h-[400px] lg:h-[500px] xl:w-1/2 relative">
         <Image src="/assets/aboutPage/familyCar.jpg" alt="about family car image" fill className="object-cover rounded-xl"  />
       </div>
     </div>
