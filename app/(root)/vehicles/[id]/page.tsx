@@ -13,6 +13,7 @@ import {
 } from "react-icons/gi";
 import { MdOutlineAirlineSeatReclineNormal } from "react-icons/md";
 import CustomButton from "../../../../components/common/button";
+import ImageSlider from "../../../../components/ImageSlider";
 
 const carImages = [
   {
@@ -104,16 +105,16 @@ const VehicleDetailsPage = () => {
   const [carImage, setCarImage] = useState(carImages[0]);
 
   return (
-    <div className="w-full flex flex-row py-15 gap-6">
-      <div className="w-1/2 flex flex-col ">
-        <div className="self-start">
+    <div className="w-full flex flex-col lg:flex-row items-center lg:items-start py-15 gap-6">
+      <div className="w-full lg:w-1/2 flex flex-col ">
+        <div className="lg:self-start w-full flex flex-row lg:flex-col justify-between">
           <h1 className="text-[40px] font-bold">BMW</h1>
           <div className="flex flex-row gap-1 items-center">
             <h1 className="font-semibold text-[40px] text-violet-600">$25</h1>
             <p className="text-gray-700">/day</p>
           </div>
         </div>
-        <div className="w-full h-[300px] relative mt-5">
+        <div className="w-full h-[400px] lg:h-[300px] relative mt-5">
           <Image
             src={carImage.url}
             alt="image sad"
@@ -121,24 +122,12 @@ const VehicleDetailsPage = () => {
             className="object-cover rounded-2xl"
           />
         </div>
-        <div className="w-full grid grid-cols-4 mt-5 gap-6">
-          {carImages.map((item) => (
-            <div className="w-full relative h-32 " key={item.id}>
-              <Image
-                src={item.url}
-                alt={item.id}
-                fill
-                className="object-cover rounded-xl cursor-pointer hover:scale-104 transition duration-500"
-                onClick={() => setCarImage(item)}
-              />
-            </div>
-          ))}
-        </div>
+        <ImageSlider carImages={carImages} event={setCarImage}/>
       </div>
-      <div className="w-1/2 flex flex-col gap-16">
+      <div className="w-full lg:w-1/2 flex flex-col gap-16">
         <div className="w-full flex flex-col gap-10">
           <h1 className="font-semibold text-[24px]">Technical Specification</h1>
-          <div className="w-full grid grid-cols-3 gap-6">
+          <div className="w-full grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-4 md:gap-6">
             {carFeatures.map((feature, idx) => (
               <div
                 key={`${feature.id} - ${idx}`}
@@ -151,14 +140,20 @@ const VehicleDetailsPage = () => {
             ))}
           </div>
         </div>
-        <CustomButton url="/" className="w-fit min-w-[290px] text-center">
+        <CustomButton
+          url="/"
+          className="w-full sm:w-fit min-w-[290px] text-center"
+        >
           Rent a car
         </CustomButton>
         <div className="w-full flex flex-col gap-10">
           <h1 className="text-[24px] font-semibold">Car Equipment</h1>
-          <div className="grid grid-cols-3 w-full gap-15">
+          <div className="grid grid-cols-2 sm:grid-cols-3 w-full gap-6 sm:gap-15">
             {carEquipments.map((equipment, idx) => (
-              <div key={`${equipment.value} - ${idx}`} className="flex flex-row gap-2 items-center">
+              <div
+                key={`${equipment.value} - ${idx}`}
+                className="flex flex-row gap-2 items-center"
+              >
                 <FaCheckCircle
                   className={`${
                     equipment.exist ? "text-violet-800" : "text-gray-500"
