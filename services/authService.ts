@@ -23,6 +23,10 @@ export async function LoginUser(email: string, password:string) {
             email, password
         })
 
+        await api.post("/session",{
+            token: res.data.token
+        })
+
         return res.data;
     } catch (error: any) {
         throw new Error(error.response?.data?.error || "Login failed." )

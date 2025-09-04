@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { getIdToken, getIdTokenResult, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "../services/firebase";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -16,20 +16,34 @@ const GoogleLoginButton = ({ value }: { value: string }) => {
     const provider = new GoogleAuthProvider();
 
     try {
+      // 1. Google popup login
       const res = await signInWithPopup(auth, provider);
 
+      // 2. User bilgilerini al
       const user = {
         name: res.user.displayName || "No Name",
         email: res.user.email || "No Email",
         uid: res.user.uid,
       };
 
+      // 3. Firebase ID Token al
+      const idToken = await res.user.getIdToken(); // 🔑 asıl token burası
+
+      // 4. Backend’e kullanıcı bilgisini kaydet
       await api.post("/auth/user", user);
 
+      // 5. Session cookie oluşturmak için token’ı backend’e gönder
+      await api.post("/session", { token: idToken });
+
+      // 6. Role bilgisini backend’den almak istersen ayrı bir endpoint çağırabilirsin
+      // örn: const roleRes = await api.get("/auth/role");
+      // dispatch(setRole(roleRes.data.role));
+
+      // 7. Dashboard’a yönlendir
       router.push("/");
     } catch (err: any) {
       alert("Hata: " + err.message);
-      console.log(err);
+      console.error(err);
     }
   };
 

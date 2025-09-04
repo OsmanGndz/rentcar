@@ -7,8 +7,10 @@ import CustomInput from "../../../components/common/input";
 import GoogleLoginButton from "../../../components/googleLoginButton";
 import Link from "next/link";
 import { useMutation } from "@tanstack/react-query";
-import { LoginUser } from "../../../services/authService";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../../services/firebase";
 import { useRouter } from "next/navigation";
+import api from "../../../lib/axios";
 
 const slides: SliderItem[] = [
   {
@@ -36,15 +38,28 @@ const Login = () => {
   const router = useRouter();
 
   const mutation = useMutation({
-    mutationFn: ({ email, password }: { email: string; password: string }) =>
-      LoginUser(email, password),
-    onSuccess: (data) => {
-      console.log("Login succesfull");
+    mutationFn: async ({
+      email,
+      password,
+    }: {
+      email: string;
+      password: string;
+    }) => {
+      const credential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const idToken = await credential.user.getIdToken();
+      await api.post("/session", {token: idToken});
+      return { uid: credential.user.uid, email: credential.user.email };
+    },
+    onSuccess: () => {
       router.push("/");
       setLoading(false);
     },
     onError: (error: any) => {
-      alert(error);
+      alert(error?.message || "Login failed");
       setLoading(false);
     },
   });

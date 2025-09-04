@@ -7,6 +7,9 @@ import Slider, { SliderItem } from "../../../components/common/slider";
 import GoogleLoginButton from "../../../components/googleLoginButton";
 import Link from "next/link";
 import { RegisterUser } from "../../../services/authService";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../../services/firebase";
+import api from "../../../lib/axios";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { setRole } from "../../../redux/features/authSlice";
@@ -38,7 +41,7 @@ const Register = () => {
   const router = useRouter();
 
   const mutation = useMutation({
-    mutationFn: ({
+    mutationFn: async ({
       name,
       email,
       password,
@@ -46,14 +49,23 @@ const Register = () => {
       name: string;
       email: string;
       password: string;
-    }) => RegisterUser(name, email, password),
-    onSuccess: (data) => {
-      console.log("Register succesfull");
+    }) => {
+      await RegisterUser(name, email, password);
+      const credential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const idToken = await credential.user.getIdToken();
+      await api.post("/session", { token: idToken });
+      return { uid: credential.user.uid, email: credential.user.email };
+    },
+    onSuccess: () => {
       router.push("/");
       setLoading(false);
     },
     onError: (error: any) => {
-      alert(error);
+      alert(error?.message || "Registration failed");
       setLoading(false);
     },
   });
