@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import CustomButton from "./common/button";
 import { CiLogin } from "react-icons/ci";
 import { TiThMenu } from "react-icons/ti";
@@ -10,6 +10,9 @@ import { AppDispatch, RootState } from "../redux/store";
 import { toggleSidebar } from "../redux/features/sidebarSlice";
 import { usePathname } from "next/navigation";
 import { auth } from "../services/firebase";
+import api from "../lib/axios";
+import { FaUserCircle } from "react-icons/fa";
+import ProfileDropdown from "./profileDropdown";
 
 const menus = [
   {
@@ -36,10 +39,10 @@ const menus = [
 const Navbar = () => {
   const dispatch = useDispatch<AppDispatch>();
   const path = usePathname();
-  console.log(path);
 
   const handleLogout = async () => {
     await auth.signOut();
+    await api.delete("/session");
   };
 
   const { user, loading, role } = useSelector((state: RootState) => state.auth);
@@ -66,19 +69,8 @@ const Navbar = () => {
           ))}
         </div>
         <div className="font-medium text-base md:text-[18px] flex flex-row items-center gap-4">
-          <h1>role: {role}</h1>
           <div className="hidden md:flex">
-            {user && user ? (
-              <button
-                onClick={() => {
-                  handleLogout();
-                }}
-                className="flex flex-row items-center space-x-2 cursor-pointer bg-red-500"
-              >
-                <p>Log Out</p>
-                <CiLogin className="text-lg md:text-xl" />
-              </button>
-            ) : (
+            {!user && (
               <CustomButton
                 url="/login"
                 className="flex flex-row items-center space-x-2 cursor-pointer"
@@ -88,6 +80,11 @@ const Navbar = () => {
               </CustomButton>
             )}
           </div>
+          {user && (
+            <div className="flex w-full flex-col relative">
+              <ProfileDropdown />
+            </div>
+          )}
           <button
             className="cursor-pointer flex lg:hidden"
             onClick={() => dispatch(toggleSidebar())}
