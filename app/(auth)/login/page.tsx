@@ -82,7 +82,7 @@ const Login = () => {
   };
 
   return (
-    <div className="w-full h-screen relative text-white">
+    <div className="w-full min-h-screen relative text-white">
       <div className="absolute inset-0 bg-gradient-to-t from-violet-800/70 to-violet-400/90 z-1" />
       <Image
         src="/assets/homePage/HeroCarPhoto.jpg"
@@ -90,12 +90,12 @@ const Login = () => {
         fill
         className="object-cover"
       />
-      <div className="relative z-2 w-full h-full py-20 px-60 flex flex-row justify-center gap-24">
-        <div className="w-full flex flex-col justify-center gap-24">
-          <div className="flex flex-row space-x-4 items-center">
+      <div className="relative z-2 w-full h-full py-4 md:py-20 px-4 sm:px-20 md:px-40 lg:px-8 xl:px-32 2xl:px-60 flex flex-col lg:flex-row justify-center gap-8 2xl:gap-24">
+        <div className="w-full flex flex-col justify-center gap-8 lg:gap-24">
+          <Link href="/" className="flex flex-row space-x-4 items-center">
             <Image src="/logo.png" alt="car logo" width={64} height={64} />
             <h2 className="text-[24px] font-bold">Rent Car</h2>
-          </div>
+          </Link>
 
           <Slider key="login slider" slides={slides} />
         </div>

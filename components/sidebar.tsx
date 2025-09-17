@@ -69,10 +69,10 @@ const Sidebar = () => {
               <IoMdClose className="text-xl" />
             </button>
             {/* Sidebar içeriği */}
-            <div className="flex flex-row space-x-2 items-center">
+            <Link href={"/"} onClick={()=> dispatch(closeSidebar())} className="flex flex-row space-x-2 items-center">
               <Image src="/logo.png" alt="car logo" width={48} height={48} />
               <h2 className="text-[16px] font-bold">Rent Car</h2>
-            </div>
+            </Link>
           </div>
           <div className="mt-8 flex flex-col gap-4">
             {menus.map((item) => {
