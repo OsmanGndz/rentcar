@@ -6,8 +6,10 @@ export async function middleware(req: NextRequest) {
   const session = req.cookies.get("session")?.value;
   const { pathname } = req.nextUrl;
 
-  // Protect admin and dashboard
-  if (pathname.startsWith("/admin") || pathname.startsWith("/dashboard")) {
+  // Protect admin, dashboard and profile pages
+  if (pathname.startsWith("/admin") || pathname.startsWith("/dashboard") || 
+      pathname.startsWith("/my-account") || pathname.startsWith("/my-payments") || 
+      pathname.startsWith("/my-reservations")) {
     if (!session) {
       return NextResponse.redirect(new URL("/login", req.url));
     }
@@ -23,5 +25,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/admin/:path*", "/admin", "/login", "/register"],
+  matcher: ["/dashboard/:path*", "/admin/:path*", "/admin", "/login", "/register", "/my-account", "/my-payments", "/my-reservations"],
 };

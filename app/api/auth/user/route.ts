@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { adminAuth, adminDb } from "../../../../lib/firebaseAdmin";
+import { error } from "console";
 
 async function checkUserExist(uid: string) {
   try {
@@ -38,3 +39,5 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Error creating user" }, { status: 500 });
   }
 }
+
+

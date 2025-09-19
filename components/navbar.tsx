@@ -47,7 +47,7 @@ const Navbar = () => {
 
   const { user, loading, role } = useSelector((state: RootState) => state.auth);
   return (
-    <div className="px-2 lg:px-18 py-7 w-full">
+    <div className="px-2 lg:px-18 py-7 w-full shadow-md mb-4">
       <nav className="flex flex-row w-full items-center justify-between">
         <div>
           <Link href="/" className="flex flex-row space-x-2 items-center">

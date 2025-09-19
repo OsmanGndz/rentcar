@@ -1,13 +1,13 @@
-import React, { ReactNode } from 'react'
+import React, { ReactNode } from "react";
+import Navbar from "../../components/navbar";
+import AccountProvider from "../../providers/AccountProvider";
 
-const layout = ({children}:{
-    children: ReactNode
-}) => {
+const layout = ({ children }: { children: ReactNode }) => {
   return (
     <div>
-      {children}
+      <AccountProvider>{children}</AccountProvider>
     </div>
-  )
-}
+  );
+};
 
-export default layout
+export default layout;
