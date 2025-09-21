@@ -6,6 +6,7 @@ import { FaUser, FaUserCircle } from "react-icons/fa";
 import { MdDateRange, MdLogout, MdPayment } from "react-icons/md";
 import { auth } from "../services/firebase";
 import api from "../lib/axios";
+import { useRouter } from "next/navigation";
 
 const options = [
   {
@@ -28,6 +29,7 @@ const options = [
 const ProfileDropdown = () => {
   const profileRef = useRef<HTMLDivElement | null>(null);
   const [userOpen, setUserOpen] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -46,6 +48,7 @@ const ProfileDropdown = () => {
   const handleLogout = async () => {
     await auth.signOut();
     await api.delete("/session");
+    router.push("/");
   };
 
   return (

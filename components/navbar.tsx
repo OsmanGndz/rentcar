@@ -40,11 +40,6 @@ const Navbar = () => {
   const dispatch = useDispatch<AppDispatch>();
   const path = usePathname();
 
-  const handleLogout = async () => {
-    await auth.signOut();
-    await api.delete("/session");
-  };
-
   const { user, loading, role } = useSelector((state: RootState) => state.auth);
   return (
     <div className="px-2 lg:px-18 py-7 w-full shadow-md mb-4">

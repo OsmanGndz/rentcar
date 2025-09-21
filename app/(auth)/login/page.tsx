@@ -51,7 +51,7 @@ const Login = () => {
         password
       );
       const idToken = await credential.user.getIdToken();
-      await api.post("/session", {token: idToken});
+      await api.post("/session", { token: idToken });
       return { uid: credential.user.uid, email: credential.user.email };
     },
     onSuccess: () => {
