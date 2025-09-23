@@ -73,7 +73,7 @@ const page = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row gap-12 lg:gap-24 w-full justify-center items-center">
+    <div className="flex flex-col md:flex-row gap-12 lg:gap-24 w-full ">
       <div className="flex flex-col gap-4 w-full md:w-[50%] items-center">
         <h1 className="text-3xl font-bold">User Information</h1>
         <form

@@ -9,7 +9,6 @@ export const useAuthListener = () => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      console.log("login de çalıştı", user)
       if (user) {
         dispatch(setUser({
           uid: user.uid,
