@@ -26,42 +26,81 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export async function GET() {
-    try {
-      const data = await adminDb.collection("cars").get();
-  
-      const cars = await Promise.all(
-        data.docs.map(async (doc) => {  // async map
-          const carData = doc.data();
-          const id = doc.id;
-  
-          if (!carData.equipment || carData.equipment.length === 0) {
-            return { ...carData, equipment: [] };
-          }
-  
-          const equipmentList = await Promise.all(
+export async function GET(req: NextRequest) {
+  try {
+    const { searchParams } = new URL(req.url);
+
+    const pageSize = parseInt(searchParams.get("pageSize") || "6");
+    const lastVisible = searchParams.get("lastVisible");
+    const category = searchParams.get("category"); // filtrelenecek kategori
+
+    let query: FirebaseFirestore.Query = adminDb
+      .collection("cars")
+      .limit(pageSize);
+
+    // kategori varsa ekle
+    if (category) {
+      query = adminDb
+        .collection("cars")
+        .where("category", "==", category)
+        .limit(pageSize);
+    }
+
+    // lastVisible varsa startAfter uygula
+    if (lastVisible) {
+      const lastDoc = await adminDb.collection("cars").doc(lastVisible).get();
+      if (lastDoc.exists) {
+        query = query.startAfter(lastDoc);
+      }
+    }
+
+    const snapshot = await query.get();
+
+    if (snapshot.empty) {
+      return NextResponse.json({ success: true, cars: [], nextPageToken: null });
+    }
+
+    const cars = await Promise.all(
+      snapshot.docs.map(async (doc) => {
+        const carData = doc.data();
+        const id = doc.id;
+
+        // ekipman kontrolü
+        let equipmentList: any[] = [];
+        if (carData.equipment && carData.equipment.length > 0) {
+          equipmentList = await Promise.all(
             carData.equipment.map(async (eqRef: any) => {
-              const eqDoc = await adminDb.collection("equipments").doc(eqRef._path.segments[1]).get();
+              const eqDoc = await adminDb
+                .collection("equipments")
+                .doc(eqRef._path.segments[1])
+                .get();
               return eqDoc.exists ? { id: eqDoc.id, ...eqDoc.data() } : null;
             })
           );
-  
-          return {
-            id,
-            ...carData,
-            equipment: equipmentList.filter(Boolean),
-          };
-        })
-      );
-  
-      return NextResponse.json({ success: true, cars });
-    } catch (error: any) {
-      return NextResponse.json(
-        { success: false, error: `Failed to fetch cars. ${error.message}` },
-        { status: 500 }
-      );
-    }
+        }
+
+        return {
+          id,
+          ...carData,
+          equipment: equipmentList.filter(Boolean),
+        };
+      })
+    );
+
+    const lastDoc = snapshot.docs[snapshot.docs.length - 1];
+
+    return NextResponse.json({
+      success: true,
+      cars,
+      nextPageToken: lastDoc ? lastDoc.id : null,
+    });
+  } catch (error: any) {
+    return NextResponse.json(
+      { success: false, error: `Failed to fetch cars. ${error.message}` },
+      { status: 500 }
+    );
   }
+}
 
   
   

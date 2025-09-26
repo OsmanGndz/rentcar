@@ -1,14 +1,26 @@
-"use client"
+"use client";
 import Image from "next/image";
 import React, { ReactNode } from "react";
 import CustomButton from "./common/button";
+import { IoSpeedometer } from "react-icons/io5";
+import { FaSnowflake } from "react-icons/fa";
+import { GiGearStickPattern } from "react-icons/gi";
+import { BsFillFuelPumpFill } from "react-icons/bs";
+
+const equipmentIcons = [
+  { name: "Electric", icon: <BsFillFuelPumpFill /> },
+  { name: "Auto", icon: <GiGearStickPattern /> },
+  { name: "AC", icon: <FaSnowflake /> },
+  { name: "Cruise Control", icon: <IoSpeedometer /> },
+];
 
 interface featureProps {
+  id: string;
   name: string;
-  icon: ReactNode;
+  type: string;
 }
 interface cardProps {
-  id: number;
+  id: string;
   image: string;
   brand: string;
   type: string;
@@ -28,12 +40,12 @@ const Card: React.FC<cardProps> = ({
 }) => {
   return (
     <div className="w-full flex flex-col bg-gray-100 p-6 rounded-lg gap-5">
-      <div className="w-full h-[288px] sm:h-[198px] xl:h-[288px] 2xl:h-[368px] relative rounded-lg">
+      <div className="w-full h-[288px] sm:h-[198px] xl:h-[288px] 2xl:h-[320px] relative rounded-lg shadow-md">
         <Image
           src={image}
           alt="home image"
           fill
-          className="object-cover rounded-lg"
+          className="object-fill rounded-lg"
         />
       </div>
       <div className="flex flex-col w-full">
@@ -56,7 +68,11 @@ const Card: React.FC<cardProps> = ({
             key={`feature - ${item.name} `}
             className="flex items-center gap-1"
           >
-            {item.icon}
+            {equipmentIcons.map((i) => {
+              if (i.name == item.name) {
+                return <>{i.icon}</>;
+              }
+            })}
             <p> {item.name} </p>
           </div>
         ))}

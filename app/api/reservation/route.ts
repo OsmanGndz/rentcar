@@ -40,22 +40,34 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export async function GET(req:NextRequest) {
-    try {
-        const data = await adminDb.collection("reservations").get();
-
-        if (data.empty) {
-            return NextResponse.json({ success: true, reservations: [] });
-        }
-
-        const reservations = data.docs.map((doc)=>({
-            resId: doc.id,
-            ...doc.data(),
-        }))
-
-        return NextResponse.json({success:true, reservations})
-    } catch (error:any) {
-        return NextResponse.json({success:false, error:error.message},
-             {status:500})
+export async function GET(req: NextRequest) {
+  try {
+    const { searchParams } = new URL(req.url);
+    const userId = searchParams.get("userId");
+    let data;
+    
+    // If userId is provided, filter by userId
+    if (userId) {
+      data = await adminDb.collection("reservations").where("userId", "==", userId).get();
+    } else {
+      data = await adminDb.collection("reservations").get();
     }
+
+    if (data.empty) {
+      return NextResponse.json({ success: true, reservations: [] });
+    }
+
+    const reservations = data.docs.map((doc) => ({
+      resId: doc.id,
+      ...doc.data(),
+    }));
+
+    return NextResponse.json({ success: true, reservations });
+  } catch (error: any) {
+    console.error("Error fetching reservations:", error);
+    return NextResponse.json(
+      { success: false, error: error.message },
+      { status: 500 }
+    );
+  }
 }

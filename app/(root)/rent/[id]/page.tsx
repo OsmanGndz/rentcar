@@ -1,11 +1,11 @@
 import React from 'react'
 
-const Past = () => {
+const page = () => {
   return (
     <div>
-      Past
+      Rent
     </div>
   )
 }
 
-export default Past
+export default page

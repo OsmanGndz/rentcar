@@ -141,7 +141,7 @@ const VehicleDetailsPage = () => {
           </div>
         </div>
         <CustomButton
-          url="/"
+          url={`/rent/${params.id}`}
           className="w-full sm:w-fit min-w-[290px] text-center"
         >
           Rent a car
